@@ -2,41 +2,59 @@ import axios from 'axios';
 import authToken from '../token';
 
 class Utils {
-  static async getReposForUser(user) {
+  static async getDataFromAPI(query, queryType) {
+    /* Reusable function that fetches 100 records in a single call according to the input query.
+       Logic is to call the githubAPI and get all the required records, with upto 100 in a call.
+    */
     try {
       const pageSize = 100;
       let pageNum = 1;
       let hasMorePages = true;
-      let listOfRepos = [];
+      let listOfData = [];
       while (hasMorePages) {
-        // The github api returns at most 100 Repos data at a time
+        // The github api returns at most 100 records at a time
         try {
           // eslint-disable-next-line no-await-in-loop
-          const list = await axios.get(
-            `https://api.github.com/users/${user}/repos?per_page=${pageSize}&page=${pageNum}`,
-            {
-              headers: {
-                Authorization: `${authToken}`,
-              },
-            },
-          );
-          // Merging the array with existing list that holds the users from previous pages
-          listOfRepos = [].concat(listOfRepos, list.data);
-          if (!list.data.length) {
-            // All the repos have been retreived.
+          const list = await axios.get(`${query}per_page=${pageSize}&page=${pageNum}`, { headers: { Authorization: `${authToken}` } });
+          /* If the query type is RepoSearch, the expected data is stored in list.data.items
+             whereas if the querytype is userSearch, the expected data is stored in list.data
+          */
+          const curList = queryType === 'userData' ? list.data : list.data.items;
+          // Merging the array with existing list that holds the data from previous pages.
+          listOfData = [].concat(listOfData, curList);
+          if (!curList.length) {
+            // All the records have been retrieved.
             hasMorePages = false;
             break;
           }
           pageNum += 1;
         } catch (err) {
           return {
-            listOfRepos: [],
+            listOfData: [],
             success: false,
-            message: 'Username invalid or API rate limit exceeded ',
           };
         }
       }
-      return { listOfRepos, success: true, message: '' };
+      return { listOfData, success: true };
+    } catch (error) {
+      return {
+        listOfData: [],
+        success: false,
+      };
+    }
+  }
+
+  static async getReposForUser(user) {
+    try {
+      const responseObj = await this.getDataFromAPI(`https://api.github.com/users/${user}/repos?`, 'userData');
+      if (!responseObj.success) {
+        return {
+          listOfRepos: [],
+          success: false,
+          message: 'User Invalid or API rate limit exceeded',
+        };
+      }
+      return { listOfRepos: responseObj.listOfData, success: true, message: '' };
     } catch (error) {
       return {
         listOfRepos: [],
@@ -88,10 +106,20 @@ class Utils {
   static async getRelatedRepos(repoName) {
     try {
       // Making API call to get all the matching repos for a given search key.
-    } catch (err) {
+      const responseObj = await this.getDataFromAPI(`https://api.github.com/search/repositories?q=${repoName}&`, 'repoData');
+      if (!responseObj.success) {
+        return {
+          listOfRepos: [],
+          success: false,
+          message: 'No valid repository Found or API rate limit exceeded',
+        };
+      }
+      return { listOfRepos: responseObj.listOfData, success: true, message: '' };
+    } catch (error) {
       return {
-        success: false,
         listOfRepos: [],
+        success: false,
+        message: 'Internal Server Error',
       };
     }
   }

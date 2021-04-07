@@ -7,11 +7,11 @@ routes.use(express.json());
 
 const isNullOrUndefined = (val) => val === null || val === undefined || val === '';
 
-routes.get('/repos', async (req, res) => {
+routes.get('/userRepos', async (req, res) => {
   const { userName } = req.query;
   // GITHUB API call to get all the users Repo.
 
-  // If the username is invalid or empty then respond accordingly.
+  // If the username is empty then respond accordingly.
   if (isNullOrUndefined(userName)) {
     res.send({
       listOfRepos: [],
@@ -100,12 +100,11 @@ routes.get('/userInfo', async (req, res) => {
 });
 
 routes.get('/relatedRepos', async (req, res) => {
-  // https://api.github.com/search/repositories?q=githubAPI-project-backend
   const { repoName } = req.query;
   // Check for Empty RepoName.
   if (isNullOrUndefined(repoName)) {
     res.send({
-      repoDetails: [],
+      listOfRepos: [],
       success: false,
       errMsg: 'Please provide a RepoName',
     });
