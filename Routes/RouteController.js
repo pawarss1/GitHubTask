@@ -13,7 +13,7 @@ routes.get('/userRepos', async (req, res) => {
 
   // If the username is empty then respond accordingly.
   if (isNullOrUndefined(userName)) {
-    res.send({
+    res.status(400).send({
       listOfRepos: [],
       success: false,
       errMsg: 'Please provide a username',
@@ -43,7 +43,7 @@ routes.get('/userInfo', async (req, res) => {
   const { userName } = req.query;
   // Check for Empty UserName.
   if (isNullOrUndefined(userName)) {
-    res.send({
+    res.status(400).send({
       userDetails: {},
       success: false,
       errMsg: 'Please provide a username',
@@ -52,7 +52,7 @@ routes.get('/userInfo', async (req, res) => {
   }
   try {
     // Querying the DB to check for Cached entry.
-    const userDetails = await Users.find({ name: userName });
+    const userDetails = await Users.find({ name: userName.toLowerCase() });
     if (userDetails.length === 0) {
       // This entry is not cached, therefore make a Github API Call and add it to the Collection.
       const userInfoFromGitHubAPI = await Utils.getUserInfo(userName);
@@ -67,7 +67,7 @@ routes.get('/userInfo', async (req, res) => {
       }
       // Add the valid user to the Database.
       const newUser = new Users({
-        name: userInfoFromGitHubAPI.userInfo.data.login,
+        name: userInfoFromGitHubAPI.userInfo.data.login.toLowerCase(),
         email: userInfoFromGitHubAPI.userInfo.data.email,
         gitHubLink: userInfoFromGitHubAPI.userInfo.data.html_url,
         company: userInfoFromGitHubAPI.userInfo.data.company,
@@ -91,7 +91,7 @@ routes.get('/userInfo', async (req, res) => {
       success: true,
     });
   } catch (err) {
-    res.send({
+    res.status(500).send({
       userDetails: {},
       success: false,
       errMsg: 'Error in the Database service',
@@ -103,7 +103,7 @@ routes.get('/relatedRepos', async (req, res) => {
   const { repoName } = req.query;
   // Check for Empty RepoName.
   if (isNullOrUndefined(repoName)) {
-    res.send({
+    res.status(400).send({
       listOfRepos: [],
       success: false,
       errMsg: 'Please provide a RepoName',
@@ -113,7 +113,7 @@ routes.get('/relatedRepos', async (req, res) => {
   const repoResponse = await Utils.getRelatedRepos(repoName);
   if (!repoResponse.success) {
     // There is some internal server error or API rate limit exceeded.
-    res.send({
+    res.status(500).send({
       success: false,
       listOfRepos: [],
       errrMsg: 'Internal server error or API rate limit exceeded',
