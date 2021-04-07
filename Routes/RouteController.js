@@ -23,6 +23,7 @@ routes.get('/repos', async (req, res) => {
   // Get the expected list of Repos for a github handle.
   const responseObj = await Utils.getReposForUser(userName);
   if (!responseObj.success) {
+    // UserName is invalid or API rate limit exceeded
     res.send({
       listOfRepos: [],
       success: false,
@@ -50,6 +51,7 @@ routes.get('/userInfo', async (req, res) => {
     return;
   }
   try {
+    // Querying the DB to check for Cached entry.
     const userDetails = await Users.find({ name: userName });
     if (userDetails.length === 0) {
       // This entry is not cached, therefore make a Github API Call and add it to the Collection.
@@ -95,5 +97,35 @@ routes.get('/userInfo', async (req, res) => {
       errMsg: 'Error in the Database service',
     });
   }
+});
+
+routes.get('/relatedRepos', async (req, res) => {
+  // https://api.github.com/search/repositories?q=githubAPI-project-backend
+  const { repoName } = req.query;
+  // Check for Empty RepoName.
+  if (isNullOrUndefined(repoName)) {
+    res.send({
+      repoDetails: [],
+      success: false,
+      errMsg: 'Please provide a RepoName',
+    });
+    return;
+  }
+  const repoResponse = await Utils.getRelatedRepos(repoName);
+  if (!repoResponse.success) {
+    // There is some internal server error or API rate limit exceeded.
+    res.send({
+      success: false,
+      listOfRepos: [],
+      errrMsg: 'Internal server error or API rate limit exceeded',
+    });
+    return;
+  }
+  // If the flow is here that means, server and the API is working properly.
+  res.send({
+    success: true,
+    listOfRepos: repoResponse.listOfRepos,
+    errrMsg: '',
+  });
 });
 export default routes;

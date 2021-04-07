@@ -84,5 +84,16 @@ class Utils {
       };
     }
   }
+
+  static async getRelatedRepos(repoName) {
+    try {
+      // Making API call to get all the matching repos for a given search key.
+    } catch (err) {
+      return {
+        success: false,
+        listOfRepos: [],
+      };
+    }
+  }
 }
 export default Utils;
