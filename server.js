@@ -1,17 +1,14 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import RouteController from './Routes/RouteController';
 
 dotenv.config();
 
 const app = express();
-const port = 3000;
 app.use(express.json());
 
-app.get('/', async (req, res) => {
-  console.log(process.env.PORT);
-  res.send('Hello');
-});
+app.use('/', RouteController);
 
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
   console.log('app is listening on port 3000');
 });
