@@ -11,7 +11,8 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx}": [
-      "eslint . --fix", "git add"
+      "eslint . --fix",
+      "git add"
     ]
   },
   "husky": {
@@ -23,7 +24,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
