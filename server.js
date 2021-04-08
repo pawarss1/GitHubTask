@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import RouteController from './Routes/RouteController';
 
+// Server code
 dotenv.config();
 
 const app = express();
