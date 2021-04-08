@@ -9,6 +9,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
+    // Successfull connection.
     console.log('connection established with mongodb server online');
   })
   .catch((err) => {
