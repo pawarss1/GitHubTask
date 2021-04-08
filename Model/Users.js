@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 // User Schema
 const userSchema = new Schema({
@@ -12,4 +12,7 @@ const userSchema = new Schema({
   publicReposCount: Number,
 });
 
-export default userSchema;
+// Creating User Collection.
+const Users = model('Users', userSchema);
+
+export default Users;
