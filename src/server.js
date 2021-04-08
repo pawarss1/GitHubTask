@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import UserRoutes from './Routes/UserRoutes';
 import RepoRoutes from './Routes/RepoRoutes';
-import dbConnector from './DatabaseServices/dbConnector';
+import dbConnector from './Services/DatabaseServices/dbConnector';
 
 dotenv.config();
 

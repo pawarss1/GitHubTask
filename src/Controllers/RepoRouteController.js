@@ -1,4 +1,4 @@
-import GithubServiceMethods from '../GitHubServices/GithubServiceMethods';
+import GithubServiceMethods from '../Services/GitHubServices/GithubServiceMethods';
 
 export default class RepoRouteController {
   static async handleRelatedRepoSearch(req, res) {

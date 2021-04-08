@@ -1,5 +1,5 @@
-import UserServiceMethods from '../UserService/UserServiceMethods';
-import DataBaseService from '../DatabaseServices/DataBaseService';
+import UserServiceMethods from '../Services/UserService/UserServiceMethods';
+import DataBaseService from '../Services/DatabaseServices/DataBaseService';
 
 export default class UserRouteController {
   static async handleUserRepoRoute(req, res) {
