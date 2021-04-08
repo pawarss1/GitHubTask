@@ -4,6 +4,7 @@ import RepoRouteController from '../Controllers/RepoRouteController';
 
 const routes = express.Router();
 routes.use(express.json());
+// Middleware for input validations.
 routes.use(inputValidation);
 
 routes.get('/relatedRepos', async (req, res) => RepoRouteController.handleRelatedRepoSearch(req, res));

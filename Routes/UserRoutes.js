@@ -1,10 +1,11 @@
 import express from 'express';
 import UserRouteController from '../Controllers/UserRouteController';
-import inputValidationMiddleware from '../Middlewares/inputValidationMiddleware';
+import inputValidation from '../Middlewares/inputValidationMiddleware';
 
 const routes = express.Router();
 routes.use(express.json());
-routes.use(inputValidationMiddleware);
+// Middleware for input validations.
+routes.use(inputValidation);
 
 routes.get('/userRepos', async (req, res) => UserRouteController.handleUserRepoRoute(req, res));
 

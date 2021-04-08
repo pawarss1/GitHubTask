@@ -17,7 +17,7 @@ export default class RepoRouteController {
         });
         return;
       }
-      // If the flow is here that means, server and the API is working properly.
+      // If the flow is here that means, server and the API are working properly.
       res.send({
         success: true,
         listOfRepos: responseObj,
