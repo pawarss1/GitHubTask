@@ -1,13 +1,13 @@
 ## API endpoints are as follows-
 
-### /userRepos?userName=pawarss1
+### /user/userRepos?name=pawarss1
 
 #### Input- Github UserName, Output- List of User Repositories
 
-### /userInfo?userName=pawarss1
+### /user/userInfo?name=pawarss1
 
 #### Input- Github UserName, Output- Cached User Info
 
-### /relatedRepos?repoName=githubAPI-project-Backend
+### /repo/relatedRepos?name=GitHubTask
 
 #### Input- Github RepoName, Output- List of Repositories matching the input repository value
