@@ -17,13 +17,12 @@ export default class GithubServiceMethods {
           // eslint-disable-next-line no-await-in-loop
           const list = await axios.get(
             `${query}per_page=${pageSize}&page=${pageNum}`,
-            { headers: { Authorization: `${authToken}` } }
+            { headers: { Authorization: `${authToken}` } },
           );
           /* If the query type is RepoSearch, the expected data is stored in list.data.items
                  whereas if the querytype is userSearch, the expected data is stored in list.data
               */
-          const curList =
-            queryType === 'userData' ? list.data : list.data.items;
+          const curList = queryType === 'userData' ? list.data : list.data.items;
           // Merging the array with existing list that holds the data from previous pages.
           listOfData = [].concat(listOfData, curList);
           if (!curList.length) {

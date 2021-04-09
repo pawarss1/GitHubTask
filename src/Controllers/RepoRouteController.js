@@ -6,7 +6,7 @@ export default class RepoRouteController {
       // Making API call to get all the matching repos for a given search key.
       const responseObj = await GithubServiceMethods.getDataFromAPI(
         `https://api.github.com/search/repositories?q=${req.query.name}&`,
-        'repoData'
+        'repoData',
       );
       if (!responseObj.success) {
         // There is some internal server error or API rate limit exceeded.

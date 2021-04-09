@@ -6,7 +6,7 @@ export default class UserRouteController {
     try {
       // GITHUB API call to get all the users Repo.
       const responseObj = await UserServiceMethods.getReposForUser(
-        req.query.name
+        req.query.name,
       );
       if (!responseObj.success) {
         // UserName is invalid or API rate limit exceeded
@@ -18,7 +18,7 @@ export default class UserRouteController {
         return;
       }
       const listOfFilteredList = UserServiceMethods.getFilteredData(
-        responseObj.listOfRepos
+        responseObj.listOfRepos,
       );
       res.send({
         listOfRepos: listOfFilteredList,
@@ -37,7 +37,7 @@ export default class UserRouteController {
   static async handleUserInfoRoute(req, res) {
     try {
       const dbServiceResponse = await DataBaseService.checkUserNameInDB(
-        req.query.name
+        req.query.name,
       );
       // If there is some error in the DB service, respond accordingly.
       if (!dbServiceResponse.success) {
@@ -51,7 +51,7 @@ export default class UserRouteController {
       if (dbServiceResponse.userDetails.length === 0) {
         // This entry is not cached, therefore make a Github API Call and add it to the Collection.
         const userServiceResponse = await UserServiceMethods.getUserInfo(
-          req.query.name
+          req.query.name,
         );
         if (!userServiceResponse.success) {
           // The username provided is invalid in context of Github or API rate limit exceeded.
@@ -64,7 +64,7 @@ export default class UserRouteController {
         }
         // Store the valid user to the DB
         const DatabaseServiceResponse = await DataBaseService.saveUserNameInDB(
-          userServiceResponse.userInfo
+          userServiceResponse.userInfo,
         );
         if (!DatabaseServiceResponse.success) {
           // If there is problem while saving

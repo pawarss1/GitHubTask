@@ -7,7 +7,7 @@ export default class UserServiceMethods {
     try {
       const responseObj = await GithubServiceMethods.getDataFromAPI(
         `https://api.github.com/users/${user}/repos?`,
-        'userData'
+        'userData',
       );
       if (!responseObj.success) {
         return {
@@ -53,7 +53,7 @@ export default class UserServiceMethods {
           headers: {
             Authorization: `${authToken}`,
           },
-        }
+        },
       );
       return {
         userInfo,
