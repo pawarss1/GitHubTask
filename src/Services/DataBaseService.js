@@ -1,4 +1,4 @@
-import Users from '../../Model/Users';
+import Users from '../Model/Users';
 
 export default class DataBaseService {
   static async checkUserNameInDB(userName) {

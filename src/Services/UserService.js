@@ -1,13 +1,13 @@
 import axios from 'axios';
-import authToken from './token';
-import GithubServiceMethods from '../GitHubServices/GithubServiceMethods';
+import authToken from '../../token';
+import GithubServiceMethods from './GithubService';
 
 export default class UserServiceMethods {
   static async getReposForUser(user) {
     try {
       const responseObj = await GithubServiceMethods.getDataFromAPI(
         `https://api.github.com/users/${user}/repos?`,
-        'userData',
+        'userData'
       );
       if (!responseObj.success) {
         return {
@@ -53,7 +53,7 @@ export default class UserServiceMethods {
           headers: {
             Authorization: `${authToken}`,
           },
-        },
+        }
       );
       return {
         userInfo,
