@@ -14,7 +14,7 @@
     }
   },
   "lint-staged": {
-    "*": "prettier --warn"
+    "*": ""
   },
   "keywords": [],
   "author": "",
