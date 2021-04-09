@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Connection to the Database.
+// Connection to the Database. DB used- MongoDB.
 dbConnector();
 
 app.use('/user', UserRoutes);
