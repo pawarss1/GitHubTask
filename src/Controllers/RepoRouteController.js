@@ -1,10 +1,10 @@
-import GithubServiceMethods from '../Services/GithubService';
+import GithubService from '../Services/GithubService';
 
 export default class RepoRouteController {
   static async handleRelatedRepoSearch(req, res) {
     try {
       // Making API call to get all the matching repos for a given search key.
-      const responseObj = await GithubServiceMethods.getDataFromAPI(
+      const responseObj = await GithubService.getDataFromAPI(
         `https://api.github.com/search/repositories?q=${req.query.name}&`,
         'repoData',
       );

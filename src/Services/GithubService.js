@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authToken from '../../token';
 
-export default class GithubServiceMethods {
+export default class GithubService {
   static async getDataFromAPI(query, queryType) {
     /* Reusable function that fetches 100 records in a single call according to the input query.
            Logic is to call the githubAPI and get all the required records, with upto 100 in a call.

@@ -1,11 +1,10 @@
-import UserServiceMethods from '../Services/UserService';
-import DataBaseService from '../Services/DataBaseService';
+import UserService from '../Services/UserService';
 
 export default class UserRouteController {
   static async handleUserRepoRoute(req, res) {
     try {
       // GITHUB API call to get all the users Repo.
-      const responseObj = await UserServiceMethods.getReposForUser(
+      const responseObj = await UserService.getReposForUser(
         req.query.name,
       );
       if (!responseObj.success) {
@@ -17,7 +16,7 @@ export default class UserRouteController {
         });
         return;
       }
-      const listOfFilteredList = UserServiceMethods.getFilteredData(
+      const listOfFilteredList = UserService.getFilteredData(
         responseObj.listOfRepos,
       );
       res.send({
@@ -36,7 +35,7 @@ export default class UserRouteController {
 
   static async handleUserInfoRoute(req, res) {
     try {
-      const dbServiceResponse = await DataBaseService.checkUserNameInDB(
+      const dbServiceResponse = await UserService.checkUserNameInDB(
         req.query.name,
       );
       // If there is some error in the DB service, respond accordingly.
@@ -50,7 +49,7 @@ export default class UserRouteController {
       }
       if (dbServiceResponse.userDetails.length === 0) {
         // This entry is not cached, therefore make a Github API Call and add it to the Collection.
-        const userServiceResponse = await UserServiceMethods.getUserInfo(
+        const userServiceResponse = await UserService.getUserInfo(
           req.query.name,
         );
         if (!userServiceResponse.success) {
@@ -63,7 +62,7 @@ export default class UserRouteController {
           return;
         }
         // Store the valid user to the DB
-        const DatabaseServiceResponse = await DataBaseService.saveUserNameInDB(
+        const DatabaseServiceResponse = await UserService.saveUserNameInDB(
           userServiceResponse.userInfo,
         );
         if (!DatabaseServiceResponse.success) {
