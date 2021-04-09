@@ -46,4 +46,29 @@ export default class GithubService {
       };
     }
   }
+
+  static async getUserInfoFromAPI(userName) {
+    // Making a API call to get the information about the User.
+    try {
+      const userInfo = await axios.get(
+        `https://api.github.com/users/${userName}`,
+        {
+          headers: {
+            Authorization: `${authToken}`,
+          },
+        },
+      );
+      return {
+        userInfo,
+        success: true,
+        message: '',
+      };
+    } catch (err) {
+      return {
+        userInfo: {},
+        success: false,
+        message: 'UserName Invalid or API limit exceeded',
+      };
+    }
+  }
 }

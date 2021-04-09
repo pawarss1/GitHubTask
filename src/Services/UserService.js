@@ -1,5 +1,3 @@
-import axios from 'axios';
-import authToken from '../../token';
 import GithubService from './GithubService';
 import Users from '../Model/Users';
 
@@ -46,28 +44,9 @@ export default class UserService {
   }
 
   static async getUserInfo(userName) {
-    // Making a API call to get the information about the User.
-    try {
-      const userInfo = await axios.get(
-        `https://api.github.com/users/${userName}`,
-        {
-          headers: {
-            Authorization: `${authToken}`,
-          },
-        },
-      );
-      return {
-        userInfo,
-        success: true,
-        message: '',
-      };
-    } catch (err) {
-      return {
-        userInfo: {},
-        success: false,
-        message: 'UserName Invalid or API limit exceeded',
-      };
-    }
+    // Controller method for making a API call to get the information about the User.
+    const userDetailResponse = await GithubService.getUserInfoFromAPI(userName);
+    return userDetailResponse;
   }
 
   static async checkUserNameInDB(userName) {
