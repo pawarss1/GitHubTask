@@ -18,3 +18,5 @@ app.use('/repo', RepoRoutes);
 app.listen(process.env.PORT, () => {
   console.log('app is listening on port 3000');
 });
+
+export default app;
